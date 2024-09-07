@@ -1,0 +1,55 @@
+agent: "QMIX"  # the learning algorithms_marl
+env_name: "Drones"
+env_id: "MultiHoverAviary"
+obs_type: 'kin'
+act_type: 'vel'
+num_drones: 3
+record: False
+obstacles: True
+max_episode_steps: 2500
+render: False
+sleep: 0.01
+learner: "QTRAN_Learner"
+policy: "Qtran_Mixing_Q_network"
+representation: "Basic_MLP"
+vectorize: "DummyVecMultiAgentEnv"
+runner: "MARL"
+on_policy: False
+state_space:
+use_rnn: False
+rnn:
+representation_hidden_size: [256, ]
+q_hidden_size: [256, ]  # the units for each hidden layer
+activation: "relu"
+
+hidden_dim_mixing_net: 64  # hidden units of mixing network
+hidden_dim_hyper_net: 64  # hidden units of hyper network
+qtran_net_hidden_dim: 64
+lambda_opt: 1.0
+lambda_nopt: 1.0
+
+seed: 1
+parallels: 10
+buffer_size: 1000000
+batch_size: 1024
+learning_rate: 0.001
+gamma: 0.99  # discount factor
+double_q: True  # use double q learning
+
+start_greedy: 1.0
+end_greedy: 0.05
+decay_step_greedy: 2500000
+train_per_step: False  # True: train model per step; False: train model per episode.
+sync_frequency: 200
+start_training: 2000  # start training after n episodes
+running_steps: 20000000
+training_frequency: 1
+
+use_grad_clip: True
+grad_clip_norm: 0.5
+
+eval_interval: 100000
+test_episode: 5
+
+log_dir: "./logs/qtran/"
+model_dir: "./models/qtran/"

@@ -181,34 +181,22 @@ class MultiHoverAviary(MultiHoverAviary_Official):
             # min_distance_to_obstacle = min(distances_to_obstacles) if distances_to_obstacles else float('inf')
             # obstacle_penalty = -1 / min_distance_to_obstacle if min_distance_to_obstacle > 0 else -float('inf')
             min_distance_to_obstacle = min(distances_to_obstacles)
-            if (min_distance_to_obstacle < 0.75) and (min_distance_to_obstacle > 0.5):
+            if (min_distance_to_obstacle < 0.7) and (min_distance_to_obstacle > 0.5):
                 rewards[i] -= 2
             elif min_distance_to_obstacle < 0.5:
                 rewards[i] -= 5
             #obstacle_penalty = -1 / min_distance_to_obstacle
             #rewards[i] += obstacle_penalty
-            #损毁惩罚
             if (max(abs(states[i][7]), abs(states[i][8])) > self.pose_limit) and (
                     z < self.space_range_z[0] + 0.05):  # the drone fulls down
                 rewards[i] -= 10#10
-            #出界惩罚
             if  z < self.space_range_z[0] + 0.05:  # the drone fulls down
-                rewards[i] -= 8#10
-            if (x < self.space_range_x[0]) or (x > self.space_range_x[1]) or (y < self.space_range_y[0]) or (
-                    y > self.space_range_y[1]) or (z > self.space_range_z[1]):  # out of range
-                rewards[i] -= 5
-            #碰撞惩罚
+                rewards[i] -= 10#10
             for j in range(self.NUM_DRONES):  # penalize collision with each other
                 if i == j: continue
                 distance_ij = np.linalg.norm(states[i, :3] - states[j, :3])
                 if distance_ij < 0.1:
                     rewards[i] -= 10
-            # 编队约束
-                if 0.3< distance_ij < 0.8:
-                    rewards[i] += 0.5
-
-
-
 
         return rewards
 

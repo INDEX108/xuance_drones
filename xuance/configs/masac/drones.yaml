@@ -1,4 +1,4 @@
-agent: "MATD3"  # the learning algorithms_marl
+agent: "MASAC"  # the learning algorithms_marl
 env_name: "Drones"
 env_id: "MultiHoverAviary"
 obs_type: 'kin'
@@ -6,21 +6,23 @@ act_type: 'vel'
 num_drones: 3
 record: False
 obstacles: True
-max_episode_steps: 2000
+max_episode_steps: 2500
 render: False
 sleep: 0.01
-learner: "MATD3_Learner"
-policy: "MATD3_Policy"
+learner: "MASAC_Learner"
+policy: "Gaussian_MASAC_Policy"
 representation: "Basic_Identical"
 vectorize: "DummyVecMultiAgentEnv"
 runner: "MARL"
 on_policy: False
 
+representation_hidden_size: []  # the units for each hidden layer
 actor_hidden_size: [256, 256]
 critic_hidden_size: [256, 256]
 activation: 'leaky_relu'
 activation_action: 'tanh'
 use_parameter_sharing: True
+use_actions_mask: False
 
 seed: 1
 parallels: 10
@@ -30,20 +32,18 @@ learning_rate_actor: 0.001  # learning rate for actor
 learning_rate_critic: 0.001  # learning rate for critic
 gamma: 0.99  # discount factor
 tau: 0.005  # soft update for target networks
+alpha: 0.01
+use_automatic_entropy_tuning: True
 
-start_noise: 0.1
-end_noise: 0.1
-sigma: 0.1
 start_training: 2000  # start training after n episodes
 running_steps: 20000000
-train_per_step: True  # True: train model per step; False: train model per episode.
 training_frequency: 1
-actor_update_delay: 2
 
 use_grad_clip: True
 grad_clip_norm: 0.5
 
 eval_interval: 100000
 test_episode: 5
-log_dir: "./logs/matd3/"
-model_dir: "./models/matd3/"
+
+log_dir: "./logs/masac/"
+model_dir: "./models/masac/"
