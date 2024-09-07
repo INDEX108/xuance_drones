@@ -1,4 +1,5 @@
 <div align="center">
+  该REPO是xuance的一个改版，适用于多无人机路径规划和避障。请把两个urdf放到gym-pybullet-drones/gym_pybullet_drones/assets
 <img src="docs/source/figures/logo_1.png" width="480" height="auto" align=center />
 </div>
 
